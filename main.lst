@@ -1,0 +1,170 @@
+CCS PCM C Compiler, Version 5.101, 43599               21-Nov-22 16:24
+
+               Filename:   E:\Study\College\Cong thuc\Ky 5\Thiet ke he thong nhung\Pic\Canh bao chong trom\main.lst
+
+               ROM used:   85 words (1%)
+                           Largest free fragment is 2048
+               RAM used:   8 (2%) at main() level
+                           8 (2%) worst case
+               Stack used: 0 locations
+               Stack size: 8
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   01A
+0003:  NOP
+.................... #include <main.h>
+.................... #include <16F877A.h>
+.................... //////////// Standard Header file for the PIC16F877A device ////////////////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... ////        (C) Copyright 1996, 2020 Custom Computer Services          ////
+.................... //// This source code may only be used by licensed users of the CCS C  ////
+.................... //// compiler.  This source code may only be distributed to other      ////
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction ////
+.................... //// or distribution is permitted without written permission.          ////
+.................... //// Derivative programs created using this software in object code    ////
+.................... //// form are not restricted in any way.                               ////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... #device PIC16F877A
+.................... 
+.................... #list
+.................... 
+.................... #device ADC=10
+.................... #fuses HS
+.................... #use delay(crystal=20000000)
+0004:  MOVLW  22
+0005:  MOVWF  04
+0006:  BCF    03.7
+0007:  MOVF   00,W
+0008:  BTFSC  03.2
+0009:  GOTO   017
+000A:  MOVLW  06
+000B:  MOVWF  78
+000C:  CLRF   77
+000D:  DECFSZ 77,F
+000E:  GOTO   00D
+000F:  DECFSZ 78,F
+0010:  GOTO   00C
+0011:  MOVLW  7B
+0012:  MOVWF  77
+0013:  DECFSZ 77,F
+0014:  GOTO   013
+0015:  DECFSZ 00,F
+0016:  GOTO   00A
+0017:  BCF    0A.3
+0018:  BCF    0A.4
+0019:  GOTO   048 (RETURN)
+.................... 
+.................... #define sensor1 input(PIN_B2)
+.................... #define sensor2 input(PIN_B3)
+.................... #define reset  input(PIN_B4)
+.................... 
+.................... #define buzzer1(x) output_bit(PIN_B0,x)
+.................... #define buzzer2(x) output_bit(PIN_B1,x)
+.................... 
+.................... #define value 1
+.................... 
+.................... 
+.................... unsigned char cam_bien1=0, cam_bien2=0;
+.................... 
+.................... void main()
+001A:  MOVF   03,W
+001B:  ANDLW  1F
+001C:  MOVWF  03
+001D:  CLRF   20
+001E:  CLRF   21
+001F:  BSF    03.5
+0020:  BSF    1F.0
+0021:  BSF    1F.1
+0022:  BSF    1F.2
+0023:  BCF    1F.3
+0024:  MOVLW  07
+0025:  MOVWF  1C
+0026:  BCF    03.7
+.................... {
+.................... 
+....................    while(TRUE)
+....................    {
+....................       //TODO: User Code
+....................       if(sensor1==value) //cam bien phat hien trom
+0027:  BSF    06.2
+0028:  BCF    03.5
+0029:  BTFSS  06.2
+002A:  GOTO   02D
+....................       //muon an trom di ra ngoai nhung chuong van bao thi sensor1 phai de la value tuc 0 hoac 1
+....................       {
+....................          cam_bien1=1;
+002B:  MOVLW  01
+002C:  MOVWF  20
+....................       }
+....................   
+....................       if(sensor2==1)
+002D:  BSF    03.5
+002E:  BSF    06.3
+002F:  BCF    03.5
+0030:  BTFSS  06.3
+0031:  GOTO   034
+....................       {
+....................          cam_bien2=1;
+0032:  MOVLW  01
+0033:  MOVWF  21
+....................       }
+....................       
+....................       if(cam_bien1==1)
+0034:  DECFSZ 20,W
+0035:  GOTO   03A
+....................       {
+....................          buzzer1(1);
+0036:  BSF    06.0
+0037:  BSF    03.5
+0038:  BCF    06.0
+0039:  BCF    03.5
+....................       }
+....................       
+....................       if(cam_bien2==1)
+003A:  DECFSZ 21,W
+003B:  GOTO   040
+....................       {
+....................          buzzer2(1);
+003C:  BSF    06.1
+003D:  BSF    03.5
+003E:  BCF    06.1
+003F:  BCF    03.5
+....................       }
+....................       
+....................       if(reset==1)//neu nut reset duoc nhan
+0040:  BSF    03.5
+0041:  BSF    06.4
+0042:  BCF    03.5
+0043:  BTFSS  06.4
+0044:  GOTO   052
+....................       {
+....................          delay_ms(100);
+0045:  MOVLW  64
+0046:  MOVWF  22
+0047:  GOTO   004
+....................          cam_bien1=0;
+0048:  CLRF   20
+....................          cam_bien2=0;
+0049:  CLRF   21
+....................          buzzer1(0);
+004A:  BCF    06.0
+004B:  BSF    03.5
+004C:  BCF    06.0
+....................          buzzer2(0);
+004D:  BCF    03.5
+004E:  BCF    06.1
+004F:  BSF    03.5
+0050:  BCF    06.1
+0051:  BCF    03.5
+....................       }
+0052:  BSF    03.5
+0053:  GOTO   027
+....................    }
+.................... 
+.................... }
+0054:  SLEEP
+
+Configuration Fuses:
+   Word  1: 3F72   HS NOWDT PUT BROWNOUT NOLVP NOCPD NOWRT NODEBUG NOPROTECT

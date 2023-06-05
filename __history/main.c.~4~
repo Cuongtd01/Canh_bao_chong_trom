@@ -1,0 +1,15 @@
+#include <main.h>
+
+unsigned char cam_bien1=0, cam_bien2=0;
+
+void main()
+{
+
+   while(TRUE)
+   {
+
+
+      //TODO: User Code
+   }
+
+}

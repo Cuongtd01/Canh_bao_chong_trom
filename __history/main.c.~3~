@@ -1,0 +1,15 @@
+#include <main.h>
+
+unsigned char sensor1=0, sensor2=0;
+
+void main()
+{
+
+   while(TRUE)
+   {
+
+
+      //TODO: User Code
+   }
+
+}
